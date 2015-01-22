@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+AEROSPIKE_USER=${AEROSPIKE_USER:-""}
+AEROSPIKE_PASSWORD=${AEROSPIKE_PASSWORD:-""}
+
+if [[ $AEROSPIKE_USER != "" ]]
+then
+    wget --user=$AEROSPIKE_USER --password=$AEROSPIKE_PASSWORD -O aerospike-amc.deb http://www.aerospike.com/enterprise/download/amc/3.5.1/artifact/ubuntu12
+else
+    wget -O aerospike-amc.deb http://www.aerospike.com/download/amc/3.5.0/artifact/ubuntu12
+fi
+
+dpkg -i aerospike-amc.deb
+
+service amc start && tail -f /var/log/amc/*.log
